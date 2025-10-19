@@ -10,6 +10,7 @@ public class PlayerMovement2D : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private bool isGrounded = true;
+    public GameObject gameWinPanel; // reference to the game win panel
 
     void Start()
     {
@@ -48,6 +49,23 @@ public class PlayerMovement2D : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("Portal"))
+        {
+            Debug.Log("Player reached the portal!");
+            gameWinPanel.SetActive(true);
+            Time.timeScale = 0f; // Pause the game
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Portal"))
+        {
+            Debug.Log("Player reached the portal!");
+            gameWinPanel.SetActive(true);
+            Time.timeScale = 0f; // Pause the game
         }
     }
 }

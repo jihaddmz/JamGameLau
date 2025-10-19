@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject portalCapsule; // reference to the portal capsule
     public float timeBonus = 5f; // Add 5 seconds per coin
     public GameObject gameOverPanel; // reference to the game over panel
+    public GameObject gameWinPanel; // reference to the game over panel
 
     private float timer; // time for the level to finish
 
@@ -120,7 +121,6 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true); // Show the panel
-
         }
 
         // Optionally stop time or disable player movement
