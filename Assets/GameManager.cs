@@ -1,20 +1,22 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement; // needed for reloading scenes
+
 
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager Instance;
-
-    public float timer = 60f; // time for the level to finish
-    public TMP_Text timerText; // UI Text to display the timer of the level
-
+    // variables
+    public float initialTime = 60f; // initial time for the level
     public float timeToMovePortal = 5f; // time in seconds before the portal moves
+    public static GameManager Instance;
+    public TMP_Text timerText; // UI Text to display the timer of the level
     public TMP_Text timerPortalText; // UI Text to display the timer of the portal to move
     public GameObject portalCapsule; // reference to the portal capsule
     public float timeBonus = 5f; // Add 5 seconds per coin
-
     public GameObject gameOverPanel; // reference to the game over panel
+
+    private float timer; // time for the level to finish
 
     private void Awake()
     {
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep across scenes
+            // DontDestroyOnLoad(gameObject); // Keep across scenes
         }
         else
         {
@@ -60,11 +62,12 @@ public class GameManager : MonoBehaviour
         // int seconds2 = Mathf.FloorToInt(timer % 5f);
         timerPortalText.text = string.Format($"00:0{((int)timeToMovePortal)}");
     }
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        timer = initialTime; // reset timer value
+        Time.timeScale = 1f; // make sure time runs normally
     }
 
     // Update is called once per frame
@@ -111,15 +114,23 @@ public class GameManager : MonoBehaviour
             portalCapsule.transform.position = newWorldPos;
         }
     }
-    
+
     void ShowGameOver()
     {
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true); // Show the panel
+
         }
 
         // Optionally stop time or disable player movement
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
     }
+
+    public void RetryGame()
+    {
+        Time.timeScale = 1f; // Resume time if paused
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+    }
+
 }
