@@ -58,14 +58,4 @@ public class PlayerMovement2D : MonoBehaviour
             Time.timeScale = 0f; // Pause the game
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Portal"))
-        {
-            Debug.Log("Player reached the portal!");
-            gameWinPanel.SetActive(true);
-            Time.timeScale = 0f; // Pause the game
-        }
-    }
 }
